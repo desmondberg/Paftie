@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 
 //Xampp Database Connection
 //change to your own credentials
+//YOU NEED TO CREATE YOUR OWN COPY OF THE PAFT DATABASE!
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASSWORD', ''); // enter your password

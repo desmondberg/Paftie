@@ -1,3 +1,15 @@
+<?php
+    //errors directive
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    //start the session
+    session_start();
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
