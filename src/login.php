@@ -5,7 +5,7 @@
     //if the user got onto login.php through a form, then proceed. else redirect them back to index.php
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
 
-        $username = sanitiseForm(trim($_POST["username"]));
+        $user = sanitiseForm(trim($_POST["user"]));
         $password = sanitiseForm(trim($_POST['password']));
         $password_confirm = sanitiseForm(trim($_POST['password_confirm']));
     
