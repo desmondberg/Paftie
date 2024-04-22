@@ -17,7 +17,6 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         html,body{
-            margin:0.5rem;
         }
         nav{
             display:flex;
@@ -27,6 +26,11 @@
         h3{
             text-align: center;
             font-size:48px;
+        }
+        .section{
+            margin:1rem;
+            padding:0.5rem;
+            border-bottom:1px dotted black;
         }
         .search{
             width:50rem;
@@ -107,34 +111,38 @@
             height:4rem;
             word-wrap:break-word;
         }
+
+        .thumbnail{
+            height:125px;
+            width:125px;
+        }
+
+        header{
+            padding:1rem;
+            background-color:#c6e7ef;
+        }
+        footer{
+            height:10rem;
+            background-color:#c6e7ef;
+            padding:1rem;
+        }
+        .menu{
+            display:flex;
+            
+            flex-direction:column;
+
+        }
+
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="title">
-                <h1>Paft.ie</h1>
-            </div>
-            <div class="search">
-                <div class="form-group">
-                <label for=""></label>
-                <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-                <small id="helpId" class="form-text text-muted">Search for a property</small>
-                </div>
-            </div>
-            <div class="login">
-                <form action="./login.php" method="POST">
-                    <button type="button" name="login" id="" class="btn btn-primary" btn-lg btn-block">Login</button>
-                </form>
-            </div>
-        </nav>
-
-        
-    </header>
+    <?php 
+        include("./header.php");
+    ?>    
     <main>
         
 
-        <div class="featured">
+        <div class="section featured">
             <h3>Featured Properties</h3>
 
             <div class="featured-grid">
@@ -149,7 +157,7 @@
                 array_pop($rows);
                 foreach ($rows as $row) {
                     echo '<div class="property-box featured-property">';
-                        echo '<div class="property-thumbnail"><img src='. $row["photo_path"].'/></div>';
+                        echo '<div class="property-thumbnail"><img class="thumbnail" src=../'. $row["photo_path"].'></div>';
                             echo "<div class='property-description'>";
                             echo "<span class='address bold'>" . $row["address"] . "</span>";
                             echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
@@ -170,7 +178,7 @@
             ?>
             </div>
         </div>
-        <div class="all-properties">
+        <div class="section all-properties">
             <h3>All Properties</h3>
             <div class="property_list">
                 <?php 
@@ -183,7 +191,7 @@
                     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     foreach ($rows as $row) {
                         echo '<div class="property-box normal-property">';
-                            echo '<div class="property-thumbnail">image</div>';
+                            echo '<div class="property-thumbnail"><img class="thumbnail" src=../'. $row["photo_path"].'></div>';
                                 echo "<div class='property-description'>";
                                 echo "<span class='address bold'>" . $row["address"] . "</span>";
                                 echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
@@ -205,7 +213,7 @@
 
             </div>
         </div>
-        <div class="testimonials">
+        <div class="section testimonials">
             <h3>Testimonials</h3>
             <?php 
                 
@@ -235,12 +243,9 @@
         </div>
 
     </main>
-    <footer>
-        <div class="menu">
-            <a href="">FAQ</a>
-            <a href="">Instructions for Landlords</a>
-        </div>
-    </footer>
+    <?php 
+        include("./footer.php")
+    ?>
 </body>
 <?php 
     mysqli_close($db_connection);

@@ -10,11 +10,15 @@
     $error = '';
 
     //if the user got onto login.php through a form, then proceed. else redirect them back to index.php
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-        $user = sanitiseForm(trim($_POST["user"]))['username'];
-        $password = sanitiseForm(trim($_POST['password']))['password'];
-        $password_confirm = sanitiseForm(trim($_POST['password_confirm']))['password_confirm'];
+        $sanitised = sanitiseForm($_POST);
+
+        var_dump($sanitised);
+
+        $user = trim($sanitised['username']);
+        $password = trim($sanitised['password']);
+        $password_confirm =  trim($sanitised['password_confirm']);
     
         // validate if email is empty
         if (empty($user)) {
@@ -31,56 +35,96 @@
 
         if(empty($error)){
             $sql = "SELECT username, password FROM users WHERE username = ?";
-        }
-        if($stmt = $mysqli->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_username);
-            
-            // Set parameters
-            $param_username = $username;
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Store result
-                $stmt->store_result();
+            if($stmt = $mysqli->prepare($sql)){
+                // Bind variables to the prepared statement as parameters
+                $stmt->bind_param("s", $param_username);
                 
-                // Check if username exists, if yes then verify password
-                if($stmt->num_rows == 1){                    
-                    // Bind result variables
-                    $stmt->bind_result($id, $username, $hashed_password);
-                    if($stmt->fetch()){
-                        if(password_verify($password, $hashed_password)){
-                            // Password is correct, start a new session
-                            session_start();
-                            
-                            // Store data in session variables
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;                            
-                            
-                            // Redirect user to welcome page
-                            header("location: welcome.php");
-                        } else{
-                            // Display an error message if password is not valid
-                            $password_err = "The password you entered was not valid.";
+                // Set parameters
+                $param_username = $username;
+                
+                // Attempt to execute the prepared statement
+                if($stmt->execute()){
+                    // Store result
+                    $stmt->store_result();
+                    
+                    // Check if username exists, if yes then verify password
+                    if($stmt->num_rows == 1){                    
+                        // Bind result variables
+                        $stmt->bind_result($id, $username, $hashed_password);
+                        if($stmt->fetch()){
+                            if(password_verify($password, $hashed_password)){
+                                // Password is correct, start a new session
+                                session_start();
+                                
+                                // Store data in session variables
+                                $_SESSION["loggedin"] = true;
+                                $_SESSION["id"] = $id;
+                                $_SESSION["username"] = $username;                            
+                                
+                                // Redirect user to welcome page
+                                header("location: welcome.php");
+                            } else{
+                                // Display an error message if password is not valid
+                                $password_err = "The password you entered was not valid.";
+                            }
                         }
+                    } else{
+                        // Display an error message if username doesn't exist
+                        $username_err = "No account found with that username.";
                     }
                 } else{
-                    // Display an error message if username doesn't exist
-                    $username_err = "No account found with that username.";
+                    echo "Oops! Something went wrong. Please try again later.";
                 }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
+    
+                // Close statement
+                $stmt->close();
             }
-
-            // Close statement
-            $stmt->close();
+            // Close connection
+            $mysqli->close();
         }
-        // Close connection
-        $mysqli->close();
+        
 
     } else{
         header("Location: ./index.php");
     }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body{ font: 14px sans-serif; }
+        .wrapper{ width: 360px; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Login</h2>
+        <p>Please fill in your credentials to login.</p>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
+            <div>
+                <label>Username</label>
+                <input type="text" name="user" class="form-control" value="<?php echo $user; ?>">
+            </div>    
+            <div>
+                <label>Password</label>
+                <input type="password" name="password" class="form-control">
+                
+            </div>
+            <div>
+                <label>Confirm Password</label>
+                <input type="password" name="password_confirm" class="form-control">
+                
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Login">
+            </div>
+            <span class="help-block"><?php echo $error; ?></span>
+            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+        </form>
+    </div>    
+</body>
+</html>
