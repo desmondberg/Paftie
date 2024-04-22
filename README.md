@@ -12,7 +12,9 @@ Before we push anything to this project, we should first decide on a branch stru
 
 ## Current tasks
 Llian - Create database, dump file DONE, enable search functionality IN PROGRESS
+
 Zezam - Create website layout, CSS IN PROGRESS
+
 Dessie - Connect database to webpage IN PROGRESS
 
 ## Current goals
