@@ -24,6 +24,10 @@
             align-items: center;
             justify-content:space-between;
         }
+        h3{
+            text-align: center;
+            font-size:48px;
+        }
         .search{
             width:50rem;
         }
@@ -92,6 +96,17 @@
             background-color:#c6e7ef;
             color:black;
         }
+
+        .testimonial{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+        .testimonial_description{
+            width:30rem;
+            height:4rem;
+            word-wrap:break-word;
+        }
     </style>
 </head>
 <body>
@@ -108,9 +123,9 @@
                 </div>
             </div>
             <div class="login">
-                <button type="button" name="tenant_login" id="" class="btn btn-primary" btn-lg btn-block">Tenant Login</button>
-                <button type="button" name="landlord_login" id="" class="btn btn-primary" btn-lg btn-block">Landlord Login</button>
-                <button type="button" name="admin_login" id="" class="btn btn-primary" btn-lg btn-block">Admin Login</button>
+                <form action="./login.php" method="POST">
+                    <button type="button" name="login" id="" class="btn btn-primary" btn-lg btn-block">Login</button>
+                </form>
             </div>
         </nav>
 
@@ -134,7 +149,7 @@
                 array_pop($rows);
                 foreach ($rows as $row) {
                     echo '<div class="property-box featured-property">';
-                        echo '<div class="property-thumbnail">image</div>';
+                        echo '<div class="property-thumbnail"><img src='. $row["photo_path"].'/></div>';
                             echo "<div class='property-description'>";
                             echo "<span class='address bold'>" . $row["address"] . "</span>";
                             echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
@@ -192,6 +207,31 @@
         </div>
         <div class="testimonials">
             <h3>Testimonials</h3>
+            <?php 
+                
+
+                $query = "SELECT * FROM testimonials";
+                $result = mysqli_query($db_connection, $query);
+                
+                if ($result !== false) {
+                    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                    foreach ($rows as $row) {
+                        echo '<div class="testimonial">';
+                            echo '<div class="testimonial-thumbnail">image</div>';
+                                echo "<span class='testimonial-email '><span class='bold'> " . $row["user_email"] . "</span> </span>";
+                                echo "<span class='testimonial_description'>" . $row["text"] . "</span>";
+                            echo "</div>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo mysqli_error($db_connection);
+                }
+                
+                mysqli_free_result($result);
+               
+                
+                
+                ?>
         </div>
 
     </main>
