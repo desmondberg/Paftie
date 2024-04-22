@@ -157,7 +157,7 @@
                 array_pop($rows);
                 foreach ($rows as $row) {
                     echo '<div class="property-box featured-property">';
-                        echo '<div class="property-thumbnail"><img class="thumbnail" src=../'. $row["photo_path"].'></div>';
+                        echo '<div class="property-thumbnail"><img class="thumbnail" src=../assets/'. $row["photo_path"].'></div>';
                             echo "<div class='property-description'>";
                             echo "<span class='address bold'>" . $row["address"] . "</span>";
                             echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
@@ -191,7 +191,7 @@
                     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     foreach ($rows as $row) {
                         echo '<div class="property-box normal-property">';
-                            echo '<div class="property-thumbnail"><img class="thumbnail" src=../'. $row["photo_path"].'></div>';
+                            echo '<div class="property-thumbnail"><img class="thumbnail" src=../assets/'. $row["photo_path"].'></div>';
                                 echo "<div class='property-description'>";
                                 echo "<span class='address bold'>" . $row["address"] . "</span>";
                                 echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
