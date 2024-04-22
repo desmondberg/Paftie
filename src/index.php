@@ -119,6 +119,7 @@
         .profile{
             height:125px;
             width:125px;
+            border-radius: 50%;
         }
 
         header{
@@ -224,17 +225,21 @@
 
                 $query = "SELECT * FROM testimonials";
                 $result = mysqli_query($db_connection, $query);
+
+                
                 
                 if ($result !== false) {
                     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
                     $profilePath ="";
-                    if(is_null(@$row["profile_path"])){
-                        $profilePath = "profiles/default.png";
-                    }else{
-                        $profilePath = $row["profile_path"];
-                    }
+                    
     
                     foreach ($rows as $row) {
+                        if(is_null($row["profile_path"])){
+                            $profilePath = "profiles/default.png";
+                        }else{
+                            $profilePath = $row["profile_path"];
+                        }
                         echo '<div class="testimonial">';
                             echo '<div class="testimonial-profile">
                                     <img class="profile" src="../assets/'.$profilePath. '">
