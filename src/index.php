@@ -116,6 +116,10 @@
             height:125px;
             width:125px;
         }
+        .profile{
+            height:125px;
+            width:125px;
+        }
 
         header{
             padding:1rem;
@@ -223,9 +227,18 @@
                 
                 if ($result !== false) {
                     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                    $profilePath ="";
+                    if(is_null(@$row["profile_path"])){
+                        $profilePath = "profiles/default.png";
+                    }else{
+                        $profilePath = $row["profile_path"];
+                    }
+    
                     foreach ($rows as $row) {
                         echo '<div class="testimonial">';
-                            echo '<div class="testimonial-thumbnail">image</div>';
+                            echo '<div class="testimonial-profile">
+                                    <img class="profile" src="../assets/'.$profilePath. '">
+                                </div>';
                                 echo "<span class='testimonial-email '><span class='bold'> " . $row["user_email"] . "</span> </span>";
                                 echo "<span class='testimonial_description'>" . $row["text"] . "</span>";
                             echo "</div>";
