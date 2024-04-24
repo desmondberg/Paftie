@@ -150,6 +150,14 @@
     ?>    
     <main>
         
+        <?php 
+        //test displaying session data
+        if(isset($_SESSION["username"])){
+            echo '<p>Welcome, '. $_SESSION["username"]. '</p>';
+        }
+            
+        ?>
+        
 
         <div class="section featured">
             <h3>Featured Properties</h3>
