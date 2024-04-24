@@ -35,16 +35,21 @@
         }
 
         if(empty($error)){
-            $sql = "SELECT username, password FROM users WHERE username = ?";
+            $sql = "SELECT username, password FROM users WHERE username = ? AND password = ?";
             if($stmt = $db_connection->prepare($sql)){
-                // Bind variables to the prepared statement as parameters
-                $stmt->bind_param("s", $param_user);
-                
+                //hashing (not needed until the signup script is created)
+                //$hashedPass = password_hash($password, PASSWORD_DEFAULT);
+
                 // Set parameters
                 $param_user = $user;
+                // Bind variables to the prepared statement as parameters
+                $stmt->bind_param("ss", $param_user, $password);
+                
+        
                 
                 // Attempt to execute the prepared statement
                 if($stmt->execute()){
+                    
                     // Store result
                     $stmt->store_result();
                     
@@ -69,6 +74,7 @@
                 } else{
                     echo "Oops! Something went wrong. Please try again later.";
                 }
+                
     
                 // Close statement
                 $stmt->close();

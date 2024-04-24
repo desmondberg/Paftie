@@ -11,5 +11,8 @@
 </head>
 <body>
     welcome
+    <form action="./index.php" method="post">
+        <input type="submit" value="Go to main page">
+    </form>
 </body>
 </html>

@@ -4,6 +4,10 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
+    session_start();
+
+    print_r($_SESSION);
+
     require ("../../../../mysql_connect.php");
 
 ?>
