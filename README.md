@@ -5,18 +5,22 @@ Before we push anything to this project, we should first decide on a branch stru
 
 
 ## Todos
-- Set up the database
-- Implement CRUD
-- Implement user authentication
+- Set up the database DONE
+- Implement CRUD IN PROGRESS
+- Implement user authentication IN PROGRESS
 
 
 ## Current tasks
-Llian - Create database, dump file
-Zezam - Create website layout, CSS
-Dessie - Connect database to webpage
+Llian - Create database, dump file DONE, enable search functionality IN PROGRESS
+
+Zezam - Create website layout, CSS IN PROGRESS
+
+Dessie - Connect database to webpage IN PROGRESS
 
 ## Current goals
-Create a basic version of the page that's only on the public level. Fill the database with a couple manually-entered properties and users so we can display them. Once we get all of that working we can start working on the user authentification. 
+- Replace the placeholder HTML with Zezam's polished layout
+- Enable login at Admin level
+- Cascade privileges to all levels below 
 
 ## Future goals
 I think we should first create the Admin level as the admin has the most privileges. After that we'll simply create the landlord and tenant levels by removing certain privileges
