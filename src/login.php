@@ -1,99 +1,130 @@
 <?php
-require_once ("../../../../mysql_connect.php");
-require_once ("session.php");
+    ini_set('error_reporting', E_ALL);
+    ini_set('display_errors', 1);
 
-$error = '';
+    //start the session
+    session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    require './functions.php';
+    require_once ("../../../../mysql_connect.php");
+    $error = '';
 
-    // validate if email is empty
-    if (empty($email)) {
-        $error .= '<p class="error">Please enter email.</p>';
-    }
+    //if the user got onto login.php through a form, then proceed. else redirect them back to index.php
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    // validate if password is empty
-    if (empty($password)) {
-        $error .= '<p class="error">Please enter your password.</p>';
-    }
+        $sanitised = sanitiseForm($_POST);
 
-    if (empty($error)) {
-        // prepare and execute the SELECT query
-        $stmt = $db_connection->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        var_dump($sanitised);
 
-        if ($result->num_rows > 0) {
-            // get the user data from the database
-            $row = $result->fetch_assoc();
-
-            // verify the password
-            if (password_verify($password, $row['password'])) {
-                $_SESSION["userid"] = $row['id'];
-                $_SESSION["user"] = $row;
-                $_SESSION["name"] = $row['name'];
-
-                // Redirect the user to welcome page
-                header("location: welcome.php");
-                exit;
-            } else {
-                $error .= '<p class="error">The password is not valid.</p>';
-            }
-        } else {
-            $error .= '<p class="error">No User exist with that email address.</p>';
+        $user = trim($sanitised['username']);
+        $password = trim($sanitised['password']);
+        $password_confirm =  trim($sanitised['password_confirm']);
+    
+        // validate if email is empty
+        if (empty($user)) {
+            $error .= '<p class="error">Please enter your username.</p>';
+        }
+    
+        if(empty($password)){
+            $error .= '<p class="error">Please enter password.</p>';
         }
 
-        $stmt->close();
-    }
-    // Close connection
-    mysqli_close($db_connection);
+        if($password!==$password_confirm){
+            $error .= '<p class="error">The password and the password confirmation don\'t match.</p>';
+        }
 
-    // display errors (if any)
-    if (!empty($error)) {
-        display_error($error);
-    }
-}
+        if(empty($error)){
+            $sql = "SELECT username, password FROM users WHERE username = ? AND password = ?";
+            if($stmt = $db_connection->prepare($sql)){
+                //hashing (not needed until the signup script is created)
+                //$hashedPass = password_hash($password, PASSWORD_DEFAULT);
 
-function display_error($error) {
-    echo '<div class="alert alert-danger">' . $error . '</div>';
-}
+                // Set parameters
+                $param_user = $user;
+                // Bind variables to the prepared statement as parameters
+                $stmt->bind_param("ss", $param_user, $password);
+                
+        
+                
+                // Attempt to execute the prepared statement
+                if($stmt->execute()){
+                    
+                    // Store result
+                    $stmt->store_result();
+                    
+                    // Check if username exists, if yes then verify password
+                    if($stmt->num_rows == 1){                    
+                        // Bind result variables
+                        $stmt->bind_result($user, $password);
+                        if($stmt->fetch()){
+                            session_start();
+                                
+                            // Store data in session variables
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["id"] = $id;
+                            $_SESSION["username"] = $user;    
+
+                            header("location: welcome.php");
+                        }
+                    } else{
+                        // Display an error message if username doesn't exist
+                        $username_err = "No account found with that username.";
+                    }
+                } else{
+                    echo "Oops! Something went wrong. Please try again later.";
+                }
+                
+    
+                // Close statement
+                $stmt->close();
+            }
+            // Close connection
+            $db_connection->close();
+        }
+        
+
+    } else{
+        header("Location: ./index.php");
+    }
+
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Login</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Login</h2>
-                    <p>Please fill in your email and password.</p>
-                      <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" name="email" class="form-control" required />
-                        </div>    
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" name="submit" class="btn btn-primary" value="Submit">
-                        </div>
-                        <p>Don't have an account? <a href="register.php">Register here</a>.</p>
-                    </form>
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body{ font: 14px sans-serif; }
+        .wrapper{ width: 360px; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Login</h2>
+        <p>Please fill in your credentials to login.</p>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
+            <div>
+                <label>Username</label>
+                <input type="text" name="user" class="form-control" value="<?php echo $user; ?>">
+            </div>    
+            <div>
+                <label>Password</label>
+                <input type="password" name="password" class="form-control">
+                
             </div>
-        </div>    
-    </body>
+            <div>
+                <label>Confirm Password</label>
+                <input type="password" name="password_confirm" class="form-control">
+                
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Login">
+            </div>
+            <span class="help-block"><?php echo $error; ?></span>
+            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+        </form>
+    </div>    
+</body>
 </html>
