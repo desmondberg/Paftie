@@ -20,6 +20,7 @@
         $user = trim($sanitised['username']);
         $password = trim($sanitised['password']);
         $password_confirm =  trim($sanitised['password_confirm']);
+        $permission;
     
         // validate if email is empty
         if (empty($user)) {
@@ -35,7 +36,7 @@
         }
 
         if(empty($error)){
-            $sql = "SELECT username, password FROM users WHERE username = ? AND password = ?";
+            $sql = "SELECT username, password, permission FROM users WHERE username = ? AND password = ?";
             if($stmt = $db_connection->prepare($sql)){
                 //hashing (not needed until the signup script is created)
                 //$hashedPass = password_hash($password, PASSWORD_DEFAULT);
@@ -56,7 +57,7 @@
                     // Check if username exists, if yes then verify password
                     if($stmt->num_rows == 1){                    
                         // Bind result variables
-                        $stmt->bind_result($user, $password);
+                        $stmt->bind_result($user, $password, $permission);
                         if($stmt->fetch()){
                             session_start();
                                 
@@ -64,6 +65,7 @@
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $user;    
+                            $_SESSION["permission"] = $permission;
 
                             header("location: welcome.php");
                         }
@@ -174,8 +176,8 @@
         <h2>Sign In</h2>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
             <div class="mb-3">
-                <label for="user" class="form-label">Username</label>
-                <input type="user" class="form-control" id="user" name="user">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" name="user" class="form-control" value="<?php echo $user; ?>">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>

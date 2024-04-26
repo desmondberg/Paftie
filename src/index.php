@@ -27,6 +27,15 @@ require("../../../../mysql_connect.php");
     <?php
     include("./header.php");
     ?>
+    <section class='edit-properties'>
+        <form action="">
+            <button type="submit">Control properties</button>
+        </form>
+        <form action="./edit_properties.php">
+            <button type="submit">Edit your properties</button>
+        </form>
+
+    </section>
 
     <section class="property-listings">
         <div class="container">

@@ -5,22 +5,22 @@
     <div class="container">
         <nav>
             <div class="title">
-                <h1>Paft.ie</h1>
-            </div>
-            <div class="login">
+                <img src="../assets/paft_logo.png" height=50 alt="">
+                <div class="login">
                 <form action="./SignIn.php" method="post">
                     <input type="submit" value="Login">
                 </form>
                 <form action="./SignUp.php" method="post">
                     <input type="submit" value="Sign up">
                 </form>
-                
             </div>
+            </div>
+            <hr>
         </nav>
         <?php
         //test displaying session data
         if (isset($_SESSION["username"])) {
-            echo '<p>Welcome, ' . $_SESSION["username"] . '</p>';
+            echo '<p style="margin:0;">Welcome, ' . $_SESSION["permission"] . " - " . $_SESSION["username"] . '</p>';
         }
         ?>
         <form action="#" method="get" class="search-form">
