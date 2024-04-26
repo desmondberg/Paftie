@@ -26,9 +26,10 @@ require("../../../../mysql_connect.php");
     include("./header.php");
     ?>
 
-    <section class="property-listings">
-        <div class="container">
-            <h2>Property Listings</h2>
+    
+    <div class="container">
+        <h2>Property Listings</h2>
+        <section class="property-listings">
             <div class="section featured">
                 <!-- FEATURED PROPERTIES -->
                 <h3>Featured Properties</h3>
@@ -65,10 +66,9 @@ require("../../../../mysql_connect.php");
                     ?>
                 </div>
             </div>
-            <section class="property-listings" id="property-listings">
-                <div class="container">
-                    <!-- ALL PROPERTIES -->
-                    <div class="section all-properties">
+            
+            <!-- ALL PROPERTIES -->
+            <div class="section all-properties">
                         <h3>All Properties</h3>
                         <div class="property_list">
                             <?php
@@ -103,55 +103,54 @@ require("../../../../mysql_connect.php");
 
                         </div>
                     </div>
-                </div>
-            </section>
-    </section>
+        </section>
 
-    <!-- output testimonials here -->
-    <div class="section testimonials">
-        <div class="container">
-            <h3>Testimonials</h3>
-            <?php
+        <!-- output testimonials here -->
+        <div class="section testimonials">
+            <div class="container">
+                <h3>Testimonials</h3>
+                <?php
 
-            //create query statement
-            $query = "SELECT * FROM testimonials";
-            //execute query on Paft database
-            $result = mysqli_query($db_connection, $query);
+                //create query statement
+                $query = "SELECT * FROM testimonials";
+                //execute query on Paft database
+                $result = mysqli_query($db_connection, $query);
 
 
-            //if there is a result:
-            if ($result !== false) {
-                //get the result as rows
-                $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                //if there is a result:
+                if ($result !== false) {
+                    //get the result as rows
+                    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-                $profilePath = "";
+                    $profilePath = "";
 
 
-                foreach ($rows as $row) {
-                    //if a profile pic is available for the testimonial, use it. otherwise use the default profile pic
-                    if (is_null($row["profile_path"])) {
-                        $profilePath = "profiles/default.png";
-                    } else {
-                        $profilePath = $row["profile_path"];
-                    }
-                    echo '<div class="testimonial">';
-                    echo '<div class="testimonial-profile">
+                    foreach ($rows as $row) {
+                        //if a profile pic is available for the testimonial, use it. otherwise use the default profile pic
+                        if (is_null($row["profile_path"])) {
+                            $profilePath = "profiles/default.png";
+                        } else {
+                            $profilePath = $row["profile_path"];
+                        }
+                        echo '<div class="testimonial">';
+                        echo '<div class="testimonial-profile">
                                     <img class="profile" src="../assets/' . $profilePath . '">
                                 </div>';
-                    echo "<span class='testimonial-email '><span class='bold'> " . $row["user_email"] . "</span> </span>";
-                    echo "<span class='testimonial_description'>" . $row["text"] . "</span>";
-                    echo "</div>";
-                    echo "</div>";
+                        echo "<span class='testimonial-email '><span class='bold'> " . $row["user_email"] . "</span> </span>";
+                        echo "<span class='testimonial_description'>" . $row["text"] . "</span>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo mysqli_error($db_connection);
                 }
-            } else {
-                echo mysqli_error($db_connection);
-            }
 
-            mysqli_free_result($result);
+                mysqli_free_result($result);
 
 
 
-            ?>
+                ?>
+            </div>
         </div>
     </div>
 
