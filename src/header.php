@@ -5,7 +5,9 @@
     <div class="container">
         <nav>
             <div class="title">
-                <img src="../assets/paft_logo.png" height=50 alt="">
+                <form action="./index.php">
+                    <img src="../assets/paft_logo.png" height=50 alt="">
+                </form>
                 <div class="login">
                 <form action="./SignIn.php" method="post">
                     <input type="submit" value="Login">

@@ -6,8 +6,6 @@ error_reporting(E_ALL);
 
 session_start();
 
-print_r($_SESSION);
-
 require("../../../../mysql_connect.php");
 
 ?>
@@ -27,13 +25,21 @@ require("../../../../mysql_connect.php");
     <?php
     include("./header.php");
     ?>
+
+    <!-- buttons for admins and landlords -->
     <section class='edit-properties'>
-        <form action="">
-            <button type="submit">Control properties</button>
-        </form>
-        <form action="./edit_properties.php">
-            <button type="submit">Edit your properties</button>
-        </form>
+        <?php 
+            if($_SESSION["permission"]=="admin"){
+                echo '<form action="./control_panel.php">
+                <button class="btn btn-primary btn-danger" type="submit">Control Panel</button>
+            </form>';
+            }
+            if($_SESSION["permission"]=="landlord"){
+                echo '<form action="./edit_properties.php">
+                <button class="btn btn-primary" type="submit">Your properties</button>
+            </form>';
+            }
+        ?>
 
     </section>
 
@@ -41,6 +47,7 @@ require("../../../../mysql_connect.php");
         <div class="container">
             <h2>Property Listings</h2>
             <div class="section featured">
+                <!-- FEATURED PROPERTIES -->
                 <h3>Featured Properties</h3>
                 <div class="featured-grid">
 
@@ -77,6 +84,7 @@ require("../../../../mysql_connect.php");
             </div>
             <section class="property-listings" id="property-listings">
                 <div class="container">
+                    <!-- ALL PROPERTIES -->
                     <div class="section all-properties">
                         <h3>All Properties</h3>
                         <div class="property_list">
@@ -115,24 +123,29 @@ require("../../../../mysql_connect.php");
                 </div>
             </section>
     </section>
+
+    <!-- output testimonials here -->
     <div class="section testimonials">
         <div class="container">
             <h3>Testimonials</h3>
             <?php
 
-
+            //create query statement
             $query = "SELECT * FROM testimonials";
+            //execute query on Paft database
             $result = mysqli_query($db_connection, $query);
 
 
-
+            //if there is a result:
             if ($result !== false) {
+                //get the result as rows
                 $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
                 $profilePath = "";
 
 
                 foreach ($rows as $row) {
+                    //if a profile pic is available for the testimonial, use it. otherwise use the default profile pic
                     if (is_null($row["profile_path"])) {
                         $profilePath = "profiles/default.png";
                     } else {

@@ -18,7 +18,19 @@ $error = '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paft - Edit properties</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        .add-properties-form{
+            border:1px solid black;
+            margin:2rem;
+            padding:1rem;
+            width:40rem;
+        }
+        .multiple-inputs{
+            display:flex;
+        }
+    </style>
 </head>
 
 <body>
@@ -74,7 +86,8 @@ $error = '';
                         echo "<span class='description'>" . $row["description"] . "</span>";
                         echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
                         echo "</div>";
-                        echo "<button class='infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
+                        echo "<button class='btn btn-warning' btn-lg btn-block >Update</button>";
+                        echo "<button class='btn btn-danger' btn-lg btn-block >Remove</button>";
                         echo "</div>";
                     }
                 }
@@ -89,6 +102,62 @@ $error = '';
             ?>
 
         </div>
+    </div>
+    <div class="add-property">
+        <h3>Add a new property</h3>
+        <form class="add-properties-form" action="" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"">
+
+            <!-- Address -->
+            <div class="mb-3">
+                <label for="username" class="form-label">Address</label>
+                <input type="text" name="address" class="form-control">
+            </div>
+            <!-- Property Type -->
+            <div class="mb-3">
+                
+                <div class="form-group">
+                <label for="type" class="form-label">Property type</label>
+                  <select class="form-control" name="type" id="type">
+                    <option>Apartment</option>
+                    <option>Detached House</option>
+                    <option>Terraced House</option>
+                    <option>Bungalow</option>
+                    <option>Villa</option>
+                    <option>Land</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+            </div>
+            <!-- No. of bedrooms -->      
+            <div class="mb-3">
+                <label for="bedrooms" class="form-label">Number of bedrooms</label>
+                <input type="number" name="bedrooms" class="form-control">
+            </div>
+            <!-- Tenancy length-->
+            <div class="mb-3">
+            <label for="tenancy_length_type" class="form-label">Tenancy Length</label>
+                <div class="form-group multiple-inputs">    
+                  <input type="number" name="tenancy_length_number" class="form-control">
+                  <select class="form-control" name="tenancy_length_type">
+                      <option>Days</option>
+                      <option>Months</option>
+                      <option>Years</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Rent price -->
+            <div class="mb-3">
+                <label for="rent_price" class="form-label">Rent Price (per month)</label>
+                <input type="number" name="rent_price" class="form-control">
+            </div>
+
+            <!-- Buy price (if applicable) -->
+
+            <!-- Image upload-->
+
+           
+            <button type="submit" class="btn btn-warning">Add</button>
+        </form>
     </div>
     <form action="./index.php">
         <button type="submit" class="btn btn-primary">Back to main page</button>
