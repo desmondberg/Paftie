@@ -9,7 +9,7 @@
                 <?php
                 //test displaying session data
                 if (isset($_SESSION["username"])) {
-                    echo '<p style="font-size:24px; margin:0;">Welcome, ' . $_SESSION["username"] . '</p>';
+                    echo '<p style="font-size:24px; margin:0;">Logged in as: ' . $_SESSION["username"] . '</p>';
                 }
                 ?>
                 <div class="login">
