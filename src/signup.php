@@ -12,10 +12,62 @@ $error = '';
 
 //if the user got onto signup.php through a form, then proceed. else redirect them back to index.php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-} else {
-    header("Location: ./index.php");
-}
+    $sanitised = sanitiseForm($_POST);
 
+    var_dump($sanitised);
+
+    $user = trim($sanitised['username']);
+    $email = trim($sanitised['email']);
+    $password = trim($sanitised['password']);
+    $password_confirm =  trim($sanitised['password_confirm']);
+    $permission = $_POST["permission"];
+
+    // validate if email is empty
+    if (empty($user)) {
+        $error .= '<p class="error">Please enter your username.</p>';
+    }
+
+    if (empty($password)) {
+        $error .= '<p class="error">Please enter password.</p>';
+    }
+
+    if ($password !== $password_confirm) {
+        $error .= '<p class="error">The password and the password confirmation don\'t match.</p>';
+    }
+
+    if (empty($error)) {
+        $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
+
+        //check if the username or email already exists in the database
+        $check = "SELECT * FROM users WHERE username = '$user' OR email = '$email'";
+        $result = $db_connection->query($check);
+        if ($result->num_rows > 0) {
+            echo "this username or email already exists!";
+        } else {
+            // Insert user data into the database
+            $insert_query = "INSERT INTO users (username, email, password, permission) VALUES ('$user', '$email', '$hashed_pass','$permission')";
+            if ($db_connection->query($insert_query)) {
+                echo "Sign up successful";
+                session_start();
+
+                // Store data in session variables
+                $_SESSION["loggedin"] = true;
+                $_SESSION["id"] = $id;
+                $_SESSION["username"] = $user;
+                $_SESSION["permission"] = $permission;
+
+
+                header("Location: ./index.php");
+            } else {
+                echo "error: " . $insert_query . "<br>" . $db_connection->error;
+            }
+        }
+       
+    } else {
+
+        
+    }
+}
 
 ?>
 
@@ -116,9 +168,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <main>
         <div class="container">
             <h2>Sign Up</h2>
-            <form action="index.html" method="post">
+            <form action="signup.php" method="post">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
+                    <label for="user" class="form-label">Username</label>
                     <input type="text" name="user" class="form-control">
                 </div>
                 <div class="mb-3">
@@ -133,9 +185,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="password" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="password_confirm" name="password_confirm">
                 </div>
+                <div class="form-group">
+                  <label for="permission">Account Type</label>
+                  <select class="form-control" name="permission" id="">
+                    <option>tenant</option>
+                    <option>landlord</option>
+                  </select>
+                </div>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form>
-            <p>Already have an account? <a href="signin.html">Sign in</a></p>
+            <p>Already have an account? <a href="Signin.php">Sign in</a></p>
         </div>
     </main>
     <?php
@@ -169,7 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <div class="container">
         <div class="copyright">
-            <p>&copy; 2024 Paft Properties. All rights reserved.</p>
+                 <p>&copy; 2024 Paft Properties. All rights reserved.</p>
         </div>
     </div>
 </footer> -->

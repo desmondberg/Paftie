@@ -25,7 +25,12 @@ require("../../../../mysql_connect.php");
     <?php
     include("./header.php");
     ?>
-
+    <div class="container">
+        <div class="ad-container">
+            <div class="ad"><p>AD GOES HERE</p></div>
+            <div class="ad"><p>AD GOES HERE</p></div>
+        </div>
+    </div>
     
     <div class="container">
         <h2>Property Listings</h2>

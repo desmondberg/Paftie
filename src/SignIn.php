@@ -36,12 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "SELECT username, password, permission FROM users WHERE username = ? AND password = ?";
         if ($stmt = $db_connection->prepare($sql)) {
             //hashing (not needed until the signup script is created)
-            //$hashedPass = password_hash($password, PASSWORD_DEFAULT);
+            $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
 
             // Set parameters
             $param_user = $user;
             // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("ss", $param_user, $password);
+            $stmt->bind_param("ss", $param_user, $hashed_pass);
 
 
 
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Check if username exists, if yes then verify password
                 if ($stmt->num_rows == 1) {
                     // Bind result variables
-                    $stmt->bind_result($user, $password, $permission);
+                    $stmt->bind_result($user, $hashed_pass, $permission);
                     if ($stmt->fetch()) {
                         session_start();
 
@@ -198,7 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <button type="submit" class="btn btn-primary">Sign In</button>
             </form>
-            <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+            <span>Don't have an account? <form action="./SignUp.php"><button type="submit">Sign Up</button></form></span>
         </div>
     </main>
     <?php

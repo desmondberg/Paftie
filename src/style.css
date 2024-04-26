@@ -208,7 +208,7 @@ footer {
 
 .features{
     display:flex;
-    justify-content: space-around;
+    justify-content:space-evenly;
     align-items:center;
 }
 
@@ -227,5 +227,16 @@ footer {
     display: flex;
 }
 .border{
+    min-height:3rem;
     border-right:1px solid black;
+}
+
+.ad-container{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+}
+.ad{
+    width:40rem;
+    height:8rem;
+    background-color:lightblue;
 }
