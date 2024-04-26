@@ -1,4 +1,7 @@
-
+html{
+    position: relative;
+    min-height: 100%;
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -91,6 +94,9 @@ header {
 }
 
 footer {
+    position:absolute;
+    bottom:0;
+    width: 100%;
     background-color: #333;
     color: #fff;
     text-align: center;

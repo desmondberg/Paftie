@@ -67,7 +67,7 @@
                             $_SESSION["username"] = $user;    
                             $_SESSION["permission"] = $permission;
 
-                            header("location: welcome.php");
+                            header("location: index.php");
                         }
                     } else{
                         // Display an error message if username doesn't exist
