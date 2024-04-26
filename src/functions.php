@@ -19,5 +19,10 @@
         return $sanitisedData;
     }
 
+    //function for sign-up script to check if a user with inputted info already exists
+    function userAlreadyExists(){
+
+    }
+
 
 ?>

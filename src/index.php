@@ -8,7 +8,7 @@ session_start();
 
 print_r($_SESSION);
 
-require("../../../mysql_connect.php");
+require("../../../../mysql_connect.php");
 
 ?>
 <!DOCTYPE html>

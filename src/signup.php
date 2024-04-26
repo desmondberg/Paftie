@@ -12,7 +12,6 @@ $error = '';
 
 //if the user got onto signup.php through a form, then proceed. else redirect them back to index.php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
 } else {
     header("Location: ./index.php");
 }
@@ -22,12 +21,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -66,6 +71,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
             background-color: #333;
             color: #fff;
             text-align: center;
@@ -81,6 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: inline;
             margin-right: 10px;
         }
+
         .footer-columns {
             display: flex;
             justify-content: space-between;
@@ -93,35 +102,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
+
 <body>
 
-<header>
-    <h1>Paft Property Portal</h1>
-</header>
+    <header>
+        <nav>
+            <div class="title">
+                <img src="../assets/paft_logo.png" height=50 alt="">
+            </div>
+        </nav>
+    </header>
 
-<main>
-    <div class="container">
-        <h2>Sign Up</h2>
-        <form action="index.html" method="post">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" name="email">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Sign Up</button>
-        </form>
-        <p>Already have an account? <a href="signin.html">Sign in</a></p>
-    </div>
-</main>
+    <main>
+        <div class="container">
+            <h2>Sign Up</h2>
+            <form action="index.html" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="user" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="password_confirm" name="password_confirm">
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="signin.html">Sign in</a></p>
+        </div>
+    </main>
+    <?php
+    include("./footer.php")
+    ?>
 
-<footer>
+    <!-- <footer>
     <div class="container footer-columns">
         <div class="footer-column">
             <div class="footer-links">
@@ -151,7 +172,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>&copy; 2024 Paft Properties. All rights reserved.</p>
         </div>
     </div>
-</footer>
+</footer> -->
 
 </body>
+
 </html>
