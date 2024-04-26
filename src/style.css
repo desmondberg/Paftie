@@ -5,7 +5,7 @@ html{
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    margin-top:15rem;
+    margin-top:12rem;
     margin-bottom:10rem;
     padding: 0;
 }
@@ -198,4 +198,23 @@ footer {
 .features{
     display:flex;
     justify-content: space-around;
+    align-items:center;
+}
+
+.main{
+    display:flex;
+    justify-content: space-around;
+}
+.add-properties-form {
+    border: 1px solid black;
+    margin: 2rem;
+    padding: 1rem;
+    width: 40rem;
+}
+
+.multiple-inputs {
+    display: flex;
+}
+.border{
+    border-right:1px solid black;
 }

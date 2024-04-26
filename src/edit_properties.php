@@ -25,25 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Paft - Edit properties</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <style>
-        .main{
-            display:flex;
-            justify-content: space-around;
-        }
-        .add-properties-form {
-            border: 1px solid black;
-            margin: 2rem;
-            padding: 1rem;
-            width: 40rem;
-        }
-
-        .multiple-inputs {
-            display: flex;
-        }
-        .border{
-            border-right:1px solid black;
-        }
-    </style>
 </head>
 
 <body>
