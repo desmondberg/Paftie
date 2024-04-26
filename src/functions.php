@@ -16,6 +16,9 @@
             $sanitisedData['password'] = htmlspecialchars(trim($data['password']));
             $sanitisedData['password_confirm'] = htmlspecialchars(trim($data['password_confirm']));
         }
+        if(isset($data["address"])){
+            $sanitisedData['address'] = htmlspecialchars(trim($data['address']));
+        }
         return $sanitisedData;
     }
 

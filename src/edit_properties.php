@@ -10,10 +10,65 @@ require './functions.php';
 require_once("../../../../mysql_connect.php");
 $error = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //sanitise form input
-    $sanitised = sanitiseForm($_POST);
+    var_dump($_POST);
 
-    var_dump($sanitised);
+    $landlord = $_SESSION["username"];
+    $landlord_email;
+
+    $landlord_email_sql = "SELECT email FROM users WHERE username = ?";
+
+    if ($stmt = $db_connection->prepare($landlord_email_sql)) {
+        $stmt->bind_param("s", $landlord);
+    }
+    // Attempt to execute the prepared statement
+    if ($stmt->execute()) {
+        // Store result
+        $stmt->store_result();
+        // Check if email exists
+        if ($stmt->num_rows == 1) {
+            $stmt->bind_result($landlord_email);
+            $stmt->fetch();
+        } else {
+            echo "You have no properties to manage.";
+        }
+    } else {
+        echo "Oops! Something went wrong. Please try again later.";
+    }
+
+
+    $address = $_POST['address'];
+    $bedrooms  = $_POST['bedrooms'];
+    $photo_path = NULL;
+    $type = $_POST['type'];
+
+    //calculate total days of tenancy based on if Days, Months or Years was picked
+
+    $tenancy_length_type  = $_POST['tenancy_length_type'];
+    $tenancy_length = 0;
+    if ($tenancy_length_type == "Days") {
+        $tenancy_length = $_POST['tenancy_length_number'];
+    }
+    if ($tenancy_length_type == "Months") {
+        $tenancy_length = $_POST['tenancy_length_number'] * 30;
+    }
+    if ($tenancy_length_type == "Years") {
+        $tenancy_length = $_POST['tenancy_length_number'] * 365;
+    }
+
+
+    $rent_price  = $_POST['rent_price'];
+    $buy_price  = $_POST['buy_price'];
+    $description = $_POST['description'];
+    $availability = 1;
+
+
+    //bedrooms, description, photo_path, address, type, tenancy_length, rent_price, buy_price, landlord, availability
+    $insert_sql = "INSERT INTO property VALUES(?,?,?,?,?,?,?,?,?,?)";
+    $stmt = $db_connection->prepare($insert_sql);
+    $stmt->bind_param("ssssssssss", $bedrooms, $description, $photo_path, $address, $type, $tenancy_length, $rent_price, $buy_price, $landlord_email, $availability);
+    // Attempt to execute the prepared statement
+    if ($stmt->execute()) {
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -144,19 +199,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Rent price -->
                 <div class="mb-3">
                     <label for="rent_price" class="form-label">Rent Price (per month)</label>
-                    <input type="number" name="rent_price" class="form-control">
+                    <input type="number" name="rent_price" class="form-control" value=0>
                 </div>
 
                 <!-- Buy price (if applicable) -->
                 <div class="mb-3">
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue" checked>
+                            <input type="checkbox" class="form-check-input" name="is_buyable" id="">
                             Property can be bought
                         </label>
                     </div>
                     <label for="buy_price" class="form-label">Buy Price</label>
-                    <input type="number" name="buy_price" class="form-control">
+                    <input type="number" name="buy_price" class="form-control" value=0>
                 </div>
 
                 <!-- description-->
