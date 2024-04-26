@@ -194,3 +194,8 @@ footer {
     background-color:#c6e7ef;
     color:black;
 }
+
+.features{
+    display:flex;
+    justify-content: space-around;
+}

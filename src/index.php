@@ -26,23 +26,6 @@ require("../../../../mysql_connect.php");
     include("./header.php");
     ?>
 
-    <!-- buttons for admins and landlords -->
-    <section class='edit-properties'>
-        <?php 
-            if($_SESSION["permission"]=="admin"){
-                echo '<form action="./control_panel.php">
-                <button class="btn btn-primary btn-danger" type="submit">Control Panel</button>
-            </form>';
-            }
-            if($_SESSION["permission"]=="landlord"){
-                echo '<form action="./edit_properties.php">
-                <button class="btn btn-primary" type="submit">Your properties</button>
-            </form>';
-            }
-        ?>
-
-    </section>
-
     <section class="property-listings">
         <div class="container">
             <h2>Property Listings</h2>
