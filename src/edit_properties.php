@@ -10,7 +10,6 @@ require './functions.php';
 require_once("../../../../mysql_connect.php");
 $error = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST);
 
     $landlord = $_SESSION["username"];
     $landlord_email;
@@ -136,8 +135,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "<span class='description'>" . $row["description"] . "</span>";
                             echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
                             echo "</div>";
-                            echo "<button class='btn btn-warning' btn-lg btn-block >Update</button>";
-                            echo "<button class='btn btn-danger' btn-lg btn-block >Remove</button>";
+                            echo "<form method='post' action='./CRUD/update.php'><input type='hidden' name='id' value='" . $row["address"] . "'><button class='btn btn-warning' btn-lg btn-block  type='submit'>Update</button></form>";
+                            echo "<form method='post' action='./CRUD/delete.php'><input type='hidden' name='id' value='" . $row["address"] . "'><button class='btn btn-danger' btn-lg btn-block  type='submit'>Delete</button></form>";
                             echo "</div>";
                         }
                     }
