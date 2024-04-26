@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 
 session_start();
 
+print_r($_SESSION);
+
 require("../../../../mysql_connect.php");
 
 ?>
@@ -31,7 +33,6 @@ require("../../../../mysql_connect.php");
         <h2>Property Listings</h2>
         <section class="property-listings">
             <div class="section featured">
-                <!-- FEATURED PROPERTIES -->
                 <h3>Featured Properties</h3>
                 <div class="featured-grid">
 
