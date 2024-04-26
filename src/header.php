@@ -8,9 +8,13 @@
                 <h1>Paft.ie</h1>
             </div>
             <div class="login">
-                <form action="./login.php" method="post">
+                <form action="./SignIn.php" method="post">
                     <input type="submit" value="Login">
                 </form>
+                <form action="./SignUp.php" method="post">
+                    <input type="submit" value="Sign up">
+                </form>
+                
             </div>
         </nav>
         <?php
