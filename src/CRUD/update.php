@@ -206,7 +206,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="mb-3">
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" name="description" id="" rows="3" placeholder="<?php echo $description; ?>"></textarea>
+                        <textarea class="form-control" name="description" id="" rows="3" placeholder="Enter description..."><?php echo $description; ?></textarea>
                     </div>
                 </div>
 
