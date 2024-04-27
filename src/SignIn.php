@@ -1,6 +1,11 @@
 <?php
+//errors directive
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 //start the session
 session_start();
+
 
 
 require './functions.php';
@@ -12,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sanitised = sanitiseForm($_POST);
 
-    var_dump($sanitised);
+    //var_dump($sanitised);
 
     $user = trim($sanitised['username']);
     $password = trim($sanitised['password']);
@@ -33,50 +38,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($error)) {
-        $sql = "SELECT username, password, permission FROM users WHERE username = ? AND password = ?";
+        $sql = "SELECT username, permission FROM users WHERE username = ? AND password = ?";
         if ($stmt = $db_connection->prepare($sql)) {
-            //hashing (not needed until the signup script is created)
-            $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
+            //hashing
+            $hashed_password = getHashedPassword($user);
+            echo $hashed_password;
+            if (password_verify($password, $hashed_password)) {
+                // Set parameters
+                $param_user = $user;
+                // Bind variables to the prepared statement as parameters
+                $stmt->bind_param("ss", $param_user, $hashed_password);
 
-            // Set parameters
-            $param_user = $user;
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("ss", $param_user, $hashed_pass);
+                // Attempt to execute the prepared statement
+                if ($stmt->execute()) {
 
+                    // Store result
+                    $stmt->store_result();
 
+                    // Check if username exists, if yes then verify password
+                    if ($stmt->num_rows == 1) {
+                        // Bind result variables
+                        $stmt->bind_result($user, $permission);
+                        if ($stmt->fetch()) {
+                            session_start();
 
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
+                            // Store data in session variables
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["id"] = $id;
+                            $_SESSION["username"] = $user;
+                            $_SESSION["permission"] = $permission;
 
-                // Store result
-                $stmt->store_result();
-
-                // Check if username exists, if yes then verify password
-                if ($stmt->num_rows == 1) {
-                    // Bind result variables
-                    $stmt->bind_result($user, $hashed_pass, $permission);
-                    if ($stmt->fetch()) {
-                        session_start();
-
-                        // Store data in session variables
-                        $_SESSION["loggedin"] = true;
-                        $_SESSION["id"] = $id;
-                        $_SESSION["username"] = $user;
-                        $_SESSION["permission"] = $permission;
-
-                        header("location: index.php");
+                            header("location: index.php");
+                        }
+                    } else {
+                        // Display an error message if username doesn't exist
+                        $username_err = "No account found with that username.";
                     }
                 } else {
-                    // Display an error message if username doesn't exist
-                    $username_err = "No account found with that username.";
+                    echo "Oops! Something went wrong. Please try again later.";
                 }
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
+
+
+                // Close statement
+                $stmt->close();
+            }else{
+                echo "Password doesn't match";
             }
-
-
-            // Close statement
-            $stmt->close();
         }
         // Close connection
         $db_connection->close();

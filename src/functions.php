@@ -1,4 +1,6 @@
 <?php 
+    
+    
 
     //function for sanitising form inputs
     function sanitiseForm($data) {
@@ -22,5 +24,19 @@
         return $sanitisedData;
     }
 
-
-?>
+    //function to retrieve hashed password from database
+    function getHashedPassword($username) {
+        $hash = 0;
+        require("../../../../mysql_connect.php");
+        $query = "SELECT password FROM users WHERE username = '$username'";
+        $stmt = $db_connection->prepare($query);
+        if($stmt->execute()){
+            $stmt->store_result();
+            $stmt->bind_result($hash);
+            if($stmt->fetch()){
+                return $hash;
+            } 
+            
+        }
+        
+    }

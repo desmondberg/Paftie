@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // select the row with matching address
     //if update button is pressed
     if (isset($_POST["update"]) && !empty($_POST["update"])) {
+        //sql statement to select the previous data (placeholder for now until we enable image uploads)
         $sql = "SELECT photo_path, address, landlord FROM property WHERE address = '" . $_POST['update'] . "'";
 
         $result = mysqli_query($db_connection, $sql);
@@ -16,6 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
             //get the first result
             $row = array_pop($rows);
+
+            //assign values
             $photo_path = $row["photo_path"];
             $address = $row["address"];
             $landlord_email = $row["landlord"];
@@ -25,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         mysqli_free_result($result);
 
+        //"form" at the beginning of these variables in order to differentiate them from the default values from line ~95
 
         $form_bedrooms = mysqli_real_escape_string($db_connection, $_POST['bedrooms']);
         $form_description = mysqli_real_escape_string($db_connection, $_POST['description']);
@@ -69,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         echo $sql;
         
+        //if query was successful, go back to edit_properties.php
         if ($db_connection->query($sql)) {
             mysqli_close($db_connection);
             header("location: ../edit_properties.php");
