@@ -9,6 +9,14 @@ session_start();
 require('./functions.php');
 require("../../../../mysql_connect.php");
 
+if(isset($_SESSION['user'])) {
+	if(!isset($_COOKIE['user'])) {
+		setcookie("user",$_SESSION['user']);
+	}
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
