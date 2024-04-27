@@ -125,6 +125,7 @@
             <span class="help-block"><?php echo $error; ?></span>
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
-    </div>    
+    </div>  
+    
 </body>
 </html>

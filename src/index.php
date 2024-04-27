@@ -9,6 +9,12 @@ session_start();
 require('./functions.php');
 require("../../../../mysql_connect.php");
 
+//if no permission level was found, assume user isn't logged in and set the permission to public
+if(!isset($_SESSION["permission"])){
+    $_SESSION["permission"]="public";
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -57,16 +57,33 @@ function getTenantAddress($username)
 function dialogBuilder($row)
 {
     echo /*html*/ '<dialog class="property-info-modal">';
-    echo /*html*/ '<img class="property-info-close" src="../assets/icons/x-lg.svg" alt="Bootstrap" width="32" height="32">';
-    echo /*html*/ '<div class="property-info-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
-    echo /*html*/ '<div class="property-info-address">' . $row["address"] . '</div>';
+    echo /*html*/ '<img style="margin-top:auto;" class="property-info-close" src="../assets/icons/x-lg.svg" alt="Bootstrap" width="32" height="32">';
+    echo /*html*/ '<hr/>';
+    echo /*html*/ '<div class="modal-flex">';
+    echo /*html*/ '<div class="property-info-thumbnail"><img class="modal-thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
     echo /*html*/ '<div class="property-info-address">' . $row["address"] . '</div>';
     echo /*html*/ '<div class="property-info-landlord">Posted by <span class="bold">' . $row["landlord"] . '</div>';
     echo /*html*/ '<div class="property-info-description">' . $row["description"] . '</div>';
     echo /*html*/ '<div class="property-info-rent-price">€' . $row["rent_price"] . '/month</div>';
-    //display an additional button if the user is a tenant
-    if ($_SESSION["permission"] == "tenant") {
-        echo/*html*/ '<button class="infobtn btn btn-warning" btn-lg btn-block >Make an enquiry</button>';
+    //display buy price if available
+    if (isset($row["buy_price"]) && !empty($row["buy_price"])) {
+        echo /*html*/ '<div class="property-info-buy-price">To Buy: €' . $row["buy_price"] . '</div>';
     }
+    if (isset($row['availablity'])) {
+        //available
+        if ($row['availablity'] == 1) {
+            echo /*html*/ '<h3>AVAILABLE</h3>';
+            //display an additional button if property is available and the user is a tenant
+            if ($_SESSION["permission"] == "tenant") {
+                echo/*html*/ '<button class="infobtn btn btn-warning" btn-lg btn-block >Make an enquiry</button>';
+            }
+        }
+        //not available
+        else if ($row['availablity'] == 0) {
+            echo /*html*/ '<h3>SALE AGREED, NOT AVAILABLE</h3>';
+        }
+    }
+    echo /*html*/ '</div>';
+
     echo /*html*/ '</dialog>';
 }

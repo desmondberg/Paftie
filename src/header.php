@@ -11,8 +11,14 @@
                 if (isset($_SESSION["username"])) {
                     echo '<p style="font-size:24px; margin:0;">Logged in as: ' . $_SESSION["username"] . '</p>';
                 }
-                ?>
-                <div class="login">
+                if (isset($_SESSION["username"])) {
+                    echo '<div class="logout">
+                    <form action="./logout.php" method="post">
+                        <input type="submit" value="Log out">
+                    </form>
+                </div>';
+                } else {
+                    echo '<div class="login">
                     <form action="./SignIn.php" method="post">
                         <input type="submit" value="Login">
                     </form>
@@ -20,6 +26,11 @@
                         <input type="submit" value="Sign up">
                     </form>
                 </div>
+                ';
+                }
+                ?>
+
+
             </div>
 
         </nav>

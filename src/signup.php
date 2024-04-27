@@ -1,6 +1,6 @@
 <?php
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
+// ini_set('error_reporting', E_ALL);
+// ini_set('display_errors', 1);
 
 //start the session
 session_start();
@@ -14,7 +14,7 @@ $error = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sanitised = sanitiseForm($_POST);
 
-    var_dump($sanitised);
+    //var_dump($sanitised);
 
     $user = trim($sanitised['username']);
     $email = trim($sanitised['email']);
@@ -200,6 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     include("./footer.php")
     ?>
+    <script src="./scripts/show_password.js"></script>  
 
     <!-- <footer>
     <div class="container footer-columns">

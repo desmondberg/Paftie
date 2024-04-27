@@ -262,11 +262,27 @@ footer {
 
 /* modal dialog */
 dialog[open] {
-    animation: dialogFade 0.5s ease normal;
+    animation: dialogFade 0.25s ease normal;
+    border:none;
+    border-radius:1rem;
+    height:50rem;
+    width:40rem;
+}
+.modal-flex{
+    margin:0.5rem;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
 }
 
+.modal-thumbnail{
+    width:30rem;
+    height:100%;
+
+}
 ::backdrop {
-    animation: backdropFade 0.5s ease normal;
+    animation: backdropFade 0.25s ease normal;
     background-color: black;
     opacity: 0.75;
 }
