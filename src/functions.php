@@ -40,3 +40,18 @@
         }
         
     }
+    //function to get the leased address of a tenant user
+    function getTenantAddress($username){
+        $address="";
+        require("../../../../mysql_connect.php");
+        $query = "SELECT lease FROM users WHERE username = '$username'";
+        $stmt = $db_connection->prepare($query);
+        if($stmt->execute()){
+            $stmt->store_result();
+            $stmt->bind_result($address);
+            if($stmt->fetch()){
+                return $address;
+            } 
+            
+        }
+    }

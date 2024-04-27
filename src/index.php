@@ -59,7 +59,9 @@ require("../../../../mysql_connect.php");
                             echo "<button class='infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
                             //display an additional button if the user is a tenant
                             if($_SESSION["permission"]=='tenant'){
-                                echo "<button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>";
+                                echo "
+                                <button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>
+                                ";
                             }
                             echo "</div>";
                         }
