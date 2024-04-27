@@ -35,6 +35,7 @@
             </form>
             <section class='edit-properties'>
                 <?php
+                //display different buttons depending on type of user
                 if ($_SESSION["permission"] == "admin") {
                     echo '<form action="./control_panel.php">
                 <button class="btn btn-primary btn-danger" type="submit">Control Panel</button>
@@ -43,6 +44,11 @@
                 if ($_SESSION["permission"] == "landlord") {
                     echo '<form action="./edit_properties.php">
                 <button class="btn btn-primary" type="submit">Your properties</button>
+            </form>';
+                }
+                if ($_SESSION["permission"] == "tenant") {
+                    echo '<form action="./leases.php">
+                <button class="btn btn-primary" type="submit">Your lease</button>
             </form>';
                 }
                 ?>

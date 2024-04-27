@@ -57,6 +57,10 @@ require("../../../../mysql_connect.php");
                             echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
                             echo "</div>";
                             echo "<button class='infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
+                            //display an additional button if the user is a tenant
+                            if($_SESSION["permission"]=='tenant'){
+                                echo "<button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>";
+                            }
                             echo "</div>";
                         }
                     } else {
@@ -93,6 +97,10 @@ require("../../../../mysql_connect.php");
                                     echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
                                     echo "</div>";
                                     echo "<button class='infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
+                                    //display an additional button if the user is a tenant
+                                    if($_SESSION["permission"]=='tenant'){
+                                        echo "<button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>";
+                                    }
                                     echo "</div>";
                                 }
                             } else {
