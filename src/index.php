@@ -10,15 +10,15 @@ require('./functions.php');
 require("../../../../mysql_connect.php");
 
 //if no permission level was found, assume user isn't logged in and set the permission to public
-if(!isset($_SESSION["permission"])){
-    $_SESSION["permission"]="public";
+if (!isset($_SESSION["permission"])) {
+    $_SESSION["permission"] = "public";
 }
 
 
-if(isset($_SESSION['user'])) {
-	if(!isset($_COOKIE['user'])) {
-		setcookie("user",$_SESSION['user']);
-	}
+if (isset($_SESSION['user'])) {
+    if (!isset($_COOKIE['user'])) {
+        setcookie("user", $_SESSION['user']);
+    }
 }
 
 
@@ -154,52 +154,51 @@ if(isset($_SESSION['user'])) {
         </section>
 
         <!-- output testimonials here -->
+        <h3>Testimonials</h3>
         <div class="section testimonials">
-            <div class="container">
-                <h3>Testimonials</h3>
-                <?php
+            
+            <?php
 
-                //create query statement
-                $query = "SELECT * FROM testimonials";
-                //execute query on Paft database
-                $result = mysqli_query($db_connection, $query);
-
-
-                //if there is a result:
-                if ($result !== false) {
-                    //get the result as rows
-                    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-                    $profilePath = "";
+            //create query statement
+            $query = "SELECT * FROM testimonials";
+            //execute query on Paft database
+            $result = mysqli_query($db_connection, $query);
 
 
-                    foreach ($rows as $row) {
-                        //if a profile pic is available for the testimonial, use it. otherwise use the default profile pic
-                        if (is_null($row["profile_path"])) {
-                            $profilePath = "profiles/default.png";
-                        } else {
-                            $profilePath = $row["profile_path"];
-                        }
-                        echo /*html*/ '<div class="testimonial">';
-                        echo /*html*/ '<div class="testimonial-profile">
+            //if there is a result:
+            if ($result !== false) {
+                //get the result as rows
+                $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+                $profilePath = "";
+
+
+                foreach ($rows as $row) {
+                    //if a profile pic is available for the testimonial, use it. otherwise use the default profile pic
+                    if (is_null($row["profile_path"])) {
+                        $profilePath = "profiles/default.png";
+                    } else {
+                        $profilePath = $row["profile_path"];
+                    }
+                    echo /*html*/ '<div class="testimonial">';
+                    echo /*html*/ '<div class="testimonial-profile">
                                     <img class="profile" src="../assets/' . $profilePath . '">
                                 </div>';
-                        echo/*html*/  "<span class='testimonial-email '><span class='bold'> " . $row["user_email"] . "</span> </span>";
-                        echo /*html*/ "<span class='testimonial_description'>" . $row["text"] . "</span>";
-                        echo /*html*/ "</div>";
-                        echo /*html*/ "</div>";
-                    }
-                } else {
-                    echo mysqli_error($db_connection);
+                    echo/*html*/  "<span class='testimonial-email '><span class='bold'> " . $row["user_email"] . "</span> </span>";
+                    echo /*html*/ "<span class='testimonial_description'>" . $row["text"] . "</span>";
+                    echo /*html*/ "</div>";
                 }
+            } else {
+                echo mysqli_error($db_connection);
+            }
 
-                mysqli_free_result($result);
+            mysqli_free_result($result);
 
 
 
-                ?>
-            </div>
+            ?>
         </div>
+    </div>
     </div>
 
 
@@ -207,7 +206,7 @@ if(isset($_SESSION['user'])) {
     include("./footer.php")
     ?>
 
-<script src="./scripts/modal.js"></script>
+    <script src="./scripts/modal.js"></script>
 </body>
 
 </html>

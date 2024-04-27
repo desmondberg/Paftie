@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 header("Location: ./index.php");
             } else {
-                echo "error: " . $insert_query . "<br>" . $db_connection->error;
+                echo "error: " . $insert_query . "<br>" . $db_connection->$error;
             }
         }
        

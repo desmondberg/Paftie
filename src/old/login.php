@@ -65,7 +65,7 @@
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $user;    
 							
-							setcookie("user",$user)
+							setcookie("user",$user);
 
                             header("location: welcome.php");
                         }

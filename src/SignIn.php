@@ -68,6 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["username"] = $user;
                             $_SESSION["permission"] = $permission;
 
+                            setcookie("user",$user);
+
                             header("location: index.php");
                         }
                     } else {
