@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 session_start();
 
+require('./functions.php');
 require("../../../../mysql_connect.php");
 
 ?>
@@ -27,11 +28,15 @@ require("../../../../mysql_connect.php");
     ?>
     <div class="container">
         <div class="ad-container">
-            <div class="ad"><p>AD GOES HERE</p></div>
-            <div class="ad"><p>AD GOES HERE</p></div>
+            <div class="ad">
+                <p>AD GOES HERE</p>
+            </div>
+            <div class="ad">
+                <p>AD GOES HERE</p>
+            </div>
         </div>
     </div>
-    
+
     <div class="container">
         <h2>Property Listings</h2>
         <section class="property-listings">
@@ -48,22 +53,31 @@ require("../../../../mysql_connect.php");
                         //the featured array won't be the entire property array
                         array_pop($rows);
                         foreach ($rows as $row) {
-                            echo '<div class="property-box featured-property">';
-                            echo '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
-                            echo "<div class='property-description'>";
-                            echo "<span class='address bold'>" . $row["address"] . "</span>";
-                            echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
-                            echo "<span class='description'>" . $row["description"] . "</span>";
-                            echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
-                            echo "</div>";
-                            echo "<button class='infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
+                            //the html comment enables syntax highlighting through a VS Code plugin called "PHP html in string" by NiceYannick
+                            echo /*html*/ '<div class="property-box featured-property">';
+                            echo /*html*/ '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
+                            echo /*html*/ "<div class='property-description'>";
+                            echo /*html*/ "<span class='address bold'>" . $row["address"] . "</span>";
+                            echo /*html*/ "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
+                            echo /*html*/ "<span class='description'>" . $row["description"] . "</span>";
+                            echo /*html*/ "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
+                            echo /*html*/ "</div>";
+                            echo /*html*/ "<button class='more-info open infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
+
+
+                            //modal info view
+
+                            dialogBuilder($row);
+
+
+
                             //display an additional button if the user is a tenant
-                            if($_SESSION["permission"]=='tenant'){
-                                echo "
+                            if ($_SESSION["permission"] == 'tenant') {
+                                echo/*html*/ "
                                 <button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>
                                 ";
                             }
-                            echo "</div>";
+                            echo/*html*/ "</div>";
                         }
                     } else {
                         echo mysqli_error($db_connection);
@@ -76,47 +90,53 @@ require("../../../../mysql_connect.php");
                     ?>
                 </div>
             </div>
-            
+
             <!-- ALL PROPERTIES -->
             <div class="section all-properties">
-                        <h3>All Properties</h3>
-                        <div class="property_list">
-                            <?php
+                <h3>All Properties</h3>
+                <div class="property_list">
+                    <?php
 
 
-                            $query = "SELECT * FROM property";
-                            $result = mysqli_query($db_connection, $query);
+                    $query = "SELECT * FROM property";
+                    $result = mysqli_query($db_connection, $query);
 
-                            if ($result !== false) {
-                                $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                                foreach ($rows as $row) {
-                                    echo '<div class="property-box normal-property">';
-                                    echo '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
-                                    echo "<div class='property-description'>";
-                                    echo "<span class='address bold'>" . $row["address"] . "</span>";
-                                    echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
-                                    echo "<span class='description'>" . $row["description"] . "</span>";
-                                    echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
-                                    echo "</div>";
-                                    echo "<button class='infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
-                                    //display an additional button if the user is a tenant
-                                    if($_SESSION["permission"]=='tenant'){
-                                        echo "<button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>";
-                                    }
-                                    echo "</div>";
-                                }
-                            } else {
-                                echo mysqli_error($db_connection);
+                    if ($result !== false) {
+                        $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                        foreach ($rows as $row) {
+                            echo /*html*/ '<div class="property-box normal-property">';
+                            echo /*html*/ '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
+                            echo /*html*/ "<div class='property-description'>";
+                            echo /*html*/ "<span class='address bold'>" . $row["address"] . "</span>";
+                            echo/*html*/  "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
+                            echo /*html*/ "<span class='description'>" . $row["description"] . "</span>";
+                            echo/*html*/  "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
+                            echo/*html*/  "</div>";
+                            echo/*html*/  "<button class='more-info open infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
+
+
+
+                            dialogBuilder($row);
+
+
+                            //display an additional button if the user is a tenant
+                            if ($_SESSION["permission"] == 'tenant') {
+                                echo/*html*/  "<button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>";
                             }
+                            echo/*html*/  "</div>";
+                        }
+                    } else {
+                        echo mysqli_error($db_connection);
+                    }
 
-                            mysqli_free_result($result);
+                    mysqli_free_result($result);
 
 
 
-                            ?>
+                    ?>
 
-                        </div>
-                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- output testimonials here -->
@@ -146,14 +166,14 @@ require("../../../../mysql_connect.php");
                         } else {
                             $profilePath = $row["profile_path"];
                         }
-                        echo '<div class="testimonial">';
-                        echo '<div class="testimonial-profile">
+                        echo /*html*/ '<div class="testimonial">';
+                        echo /*html*/ '<div class="testimonial-profile">
                                     <img class="profile" src="../assets/' . $profilePath . '">
                                 </div>';
-                        echo "<span class='testimonial-email '><span class='bold'> " . $row["user_email"] . "</span> </span>";
-                        echo "<span class='testimonial_description'>" . $row["text"] . "</span>";
-                        echo "</div>";
-                        echo "</div>";
+                        echo/*html*/  "<span class='testimonial-email '><span class='bold'> " . $row["user_email"] . "</span> </span>";
+                        echo /*html*/ "<span class='testimonial_description'>" . $row["text"] . "</span>";
+                        echo /*html*/ "</div>";
+                        echo /*html*/ "</div>";
                     }
                 } else {
                     echo mysqli_error($db_connection);
@@ -173,7 +193,7 @@ require("../../../../mysql_connect.php");
     include("./footer.php")
     ?>
 
-
+<script src="./scripts/modal.js"></script>
 </body>
 
 </html>

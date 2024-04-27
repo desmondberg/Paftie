@@ -1,19 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-html{
+html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     font-family: "Roboto", Arial, sans-serif;
     margin: 0;
-    margin-top:12rem;
-    margin-bottom:12rem;
+    margin-top: 12rem;
+    margin-bottom: 12rem;
     padding: 0;
 }
 
-h3{
-    text-align:center;
+h3 {
+    text-align: center;
 }
 
 .container {
@@ -23,23 +24,23 @@ h3{
 
 
 header {
-    position:fixed;
-    top:0;
-    width:100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
     background-color: #333;
     color: #fff;
     padding: 10px 0;
     text-align: center;
 }
 
-.title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.login{
-    display:flex;
+.login {
+    display: flex;
     justify-content: center;
 }
 
@@ -101,13 +102,13 @@ header {
     right: 10px;
 }
 
-.section{
-    margin-bottom:5rem;
+.section {
+    margin-bottom: 5rem;
 }
 
 footer {
-    position:absolute;
-    bottom:0;
+    position: absolute;
+    bottom: 0;
     width: 100%;
     background-color: #333;
     color: #fff;
@@ -115,107 +116,122 @@ footer {
     padding: 10px 0;
 }
 
-.featured-grid{
-    display:grid;
+.featured-grid {
+    display: grid;
     grid-template-columns: 1fr;
 }
-.property-box{
-    margin:0.5rem;
-    display:flex;
-    
-    
-    border-radius:0.5rem;
-    justify-content:space-between;
-    align-items:center;
+
+.property-box {
+    margin: 0.5rem;
+    display: flex;
+
+
+    border-radius: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
 }
-.normal-property{
-    height:8rem;
+
+.normal-property {
+    height: 8rem;
     background-color: #e8e8e8;
 }
-.featured-property{
-    height:10rem;
+
+.featured-property {
+    height: 10rem;
     background-color: #e8e8e8;
     box-shadow: 0px 0px 20px rgb(105, 215, 255);
 }
-.property-thumbnail{
-    width:8rem;
-    height:8rem;
-    margin:0.3rem;
-    border-radius:0.5rem;
-    background-color:#c6e7ef;
-}
-.testimonial{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-.testimonial_description{
-    width:30rem;
-    height:4rem;
-    word-wrap:break-word;
+
+.property-thumbnail {
+    width: 8rem;
+    height: 8rem;
+    margin: 0.3rem;
+    border-radius: 0.5rem;
+    background-color: #c6e7ef;
 }
 
-.thumbnail{
-    height:125px;
-    width:125px;
+.testimonial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.profile{
-    height:125px;
-    width:125px;
+
+.testimonial_description {
+    width: 30rem;
+    height: 4rem;
+    word-wrap: break-word;
+}
+
+.thumbnail {
+    height: 125px;
+    width: 125px;
+}
+
+.profile {
+    height: 125px;
+    width: 125px;
     border-radius: 50%;
 }
-.menu{
-    display:flex;
-    
-    flex-direction:column;
+
+.menu {
+    display: flex;
+
+    flex-direction: column;
 
 }
 
-.property-description{
+.property-description {
     margin-right: auto;
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
-.normal-property .property-description{
-    max-width:80rem;
-}
-.featured-property .property-description{
-    max-width:40rem;
+
+.normal-property .property-description {
+    max-width: 80rem;
 }
 
-.address{
-    font-size:32px;
-    
+.featured-property .property-description {
+    max-width: 40rem;
 }
-.bold{
-    font-weight:bold;
+
+.address {
+    font-size: 32px;
+
 }
-.rent-price{
-    font-size:24px;
+
+.bold {
+    font-weight: bold;
 }
-.description{
+
+.rent-price {
+    font-size: 24px;
+}
+
+.description {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.infobtn{
-    height:5rem;
-    width:8rem;
-    margin:0.5rem;
-    background-color:#c6e7ef;
-    color:black;
+
+.infobtn {
+    height: 5rem;
+    width: 8rem;
+    margin: 0.5rem;
+    background-color: #c6e7ef;
+    color: black;
 }
 
-.features{
-    display:flex;
-    justify-content:space-evenly;
-    align-items:center;
+.features {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
-.main{
-    display:flex;
+.main {
+    display: flex;
     justify-content: space-around;
 }
+
 .add-properties-form {
     border: 1px solid black;
     margin: 2rem;
@@ -226,17 +242,50 @@ footer {
 .multiple-inputs {
     display: flex;
 }
-.border{
-    min-height:3rem;
-    border-right:1px solid black;
+
+.border {
+    min-height: 3rem;
+    border-right: 1px solid black;
 }
 
-.ad-container{
-    display:grid;
+.ad-container {
+    display: grid;
     grid-template-columns: 1fr 1fr;
 }
-.ad{
-    width:40rem;
-    height:8rem;
-    background-color:lightblue;
+
+.ad {
+    width: 40rem;
+    height: 8rem;
+    background-color: lightblue;
+}
+
+
+/* modal dialog */
+dialog[open] {
+    animation: dialogFade 0.5s ease normal;
+}
+
+::backdrop {
+    animation: backdropFade 0.5s ease normal;
+    background-color: black;
+    opacity: 0.75;
+}
+
+@keyframes dialogFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+@keyframes backdropFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0.75;
+    }
 }
