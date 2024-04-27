@@ -15,6 +15,14 @@ if(!isset($_SESSION["permission"])){
 }
 
 
+if(isset($_SESSION['user'])) {
+	if(!isset($_COOKIE['user'])) {
+		setcookie("user",$_SESSION['user']);
+	}
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
