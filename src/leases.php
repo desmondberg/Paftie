@@ -53,7 +53,7 @@ require("../../../../mysql_connect.php");
                 echo "<span class='description'>" . $row["description"] . "</span>";
                 echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
                 echo "</div>";
-                echo "<button class='infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
+                echo "<button style='margin:1rem;' class='btn btn-danger' btn-lg btn-block >Remove Lease</button>";
                 echo "</div>";
             }
         } else {

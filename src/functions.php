@@ -89,12 +89,12 @@ function propertyBuilder($row, bool $featured){
     dialogBuilder($row);
 
 
-
+ 
     //display an additional button if the user is a tenant and property is available
     if ($_SESSION["permission"] == 'tenant' && isset($row['availablity']) && $row['availablity'] == 1) {
         echo/*html*/ "
-        <form action='./enquiry.php'>
-            <button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>
+        <form method='GET' action='./enquiry.php'>
+            <button name= '" . $row["address"] . "' class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>
         </form>
         ";
     }
@@ -123,7 +123,9 @@ function dialogBuilder($row)
             echo /*html*/ '<h3>AVAILABLE</h3>';
             //display an additional button if property is available and the user is a tenant
             if ($_SESSION["permission"] == "tenant") {
-                echo/*html*/ '<button class="infobtn btn btn-warning" btn-lg btn-block >Make an enquiry</button>';
+                echo/*html*/ "<form method='GET' action='./enquiry.php'>
+                    <button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>
+                </form>";
             }
         }
         //not available
