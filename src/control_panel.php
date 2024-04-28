@@ -17,6 +17,17 @@ require("../../../../mysql_connect.php");
     <title>Control Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        .query{
+            display:flex;
+            flex-direction:column;
+            align-items: center;
+            justify-content: center;
+            border:1px solid black;
+            border-radius:1rem;
+            margin:1rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,6 +36,28 @@ require("../../../../mysql_connect.php");
     ?>
     <div class="container">
         <h2>Control Panel</h2>
+        <div class="user-queries">
+            <h3>User queries</h3>
+            <?php 
+                $query = "SELECT * FROM contacts";
+                $result = mysqli_query($db_connection, $query);
+
+                if ($result !== false) {
+                    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                    foreach ($rows as $row) {
+                        echo /*html*/ '<div class="query">';
+                        echo '<h4>'. $row['user'].'</h4>';
+                        echo '<p>'. $row['text'].'</p>';
+                        echo /*html*/  '</div>';
+                    }
+                } else {
+                    echo mysqli_error($db_connection);
+                }
+
+                mysqli_free_result($result);
+            
+            ?>
+        </div>
         <!-- ALL PROPERTIES -->
         <div class="section all-properties">
             <h3>All Properties</h3>
