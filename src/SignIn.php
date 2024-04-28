@@ -205,6 +205,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="password" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="password_confirm" name="password_confirm">
                 </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="show-password" name="" id="">
+                            Show password
+                      </label>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">Sign In</button>
             </form>
             <span>Don't have an account? <form action="./SignUp.php"><button type="submit">Sign Up</button></form></span>

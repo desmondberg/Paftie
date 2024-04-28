@@ -4,6 +4,8 @@ ini_set('display_errors', 1);
 require '../functions.php';
 require_once("../../../../../mysql_connect.php");
 
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     var_dump($_POST);
     // select the row with matching address
@@ -76,7 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //if query was successful, go back to edit_properties.php
         if ($db_connection->query($sql)) {
             mysqli_close($db_connection);
-            header("location: ../edit_properties.php");
+            if($_SESSION["permission"]=="admin"){
+                header("location: ../control_panel.php");
+            }else{
+                header("location: ../edit_properties.php");
+            }
         }
 
     } else {
