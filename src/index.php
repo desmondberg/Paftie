@@ -67,31 +67,7 @@ if (isset($_SESSION['user'])) {
                         //the featured array won't be the entire property array
                         array_pop($rows);
                         foreach ($rows as $row) {
-                            //the html comment enables syntax highlighting through a VS Code plugin called "PHP html in string" by NiceYannick
-                            echo /*html*/ '<div class="property-box featured-property">';
-                            echo /*html*/ '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
-                            echo /*html*/ "<div class='property-description'>";
-                            echo /*html*/ "<span class='address bold'>" . $row["address"] . "</span>";
-                            echo /*html*/ "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
-                            echo /*html*/ "<span class='description'>" . $row["description"] . "</span>";
-                            echo /*html*/ "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
-                            echo /*html*/ "</div>";
-                            echo /*html*/ "<button class='more-info open infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
-
-
-                            //modal info view
-
-                            dialogBuilder($row);
-
-
-
-                            //display an additional button if the user is a tenant
-                            if ($_SESSION["permission"] == 'tenant') {
-                                echo/*html*/ "
-                                <button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>
-                                ";
-                            }
-                            echo/*html*/ "</div>";
+                            propertyBuilder($row,true);
                         }
                     } else {
                         echo mysqli_error($db_connection);
@@ -118,26 +94,7 @@ if (isset($_SESSION['user'])) {
                     if ($result !== false) {
                         $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         foreach ($rows as $row) {
-                            echo /*html*/ '<div class="property-box normal-property">';
-                            echo /*html*/ '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
-                            echo /*html*/ "<div class='property-description'>";
-                            echo /*html*/ "<span class='address bold'>" . $row["address"] . "</span>";
-                            echo/*html*/  "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
-                            echo /*html*/ "<span class='description'>" . $row["description"] . "</span>";
-                            echo/*html*/  "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
-                            echo/*html*/  "</div>";
-                            echo/*html*/  "<button class='more-info open infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
-
-
-
-                            dialogBuilder($row);
-
-
-                            //display an additional button if the user is a tenant
-                            if ($_SESSION["permission"] == 'tenant') {
-                                echo/*html*/  "<button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>";
-                            }
-                            echo/*html*/  "</div>";
+                            propertyBuilder($row,false);
                         }
                     } else {
                         echo mysqli_error($db_connection);

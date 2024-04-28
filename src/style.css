@@ -157,6 +157,7 @@ footer {
     border:1px solid black;
     border-radius:1rem;
     padding:1rem;
+    margin:0.4rem;
 }
 
 .testimonial_description {
@@ -310,5 +311,6 @@ dialog[open] {
 }
 .testimonials{
     display:flex;
+    flex-wrap:wrap;
     justify-content: space-evenly;
 }

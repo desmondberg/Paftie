@@ -53,6 +53,54 @@ function getTenantAddress($username)
     }
 }
 
+
+//function for displaying properties
+function propertyBuilder($row, bool $featured){
+    $extraClass="";
+    if($featured){
+        $extraClass="featured-property";
+    }else{
+        $extraClass="normal-property";
+    }
+    //the html comment enables syntax highlighting through a VS Code plugin called "PHP html in string" by NiceYannick
+    echo '<div class="property-box ' . $extraClass . '">';
+    echo /*html*/ '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
+    echo /*html*/ "<div class='property-description'>";
+    echo /*html*/ "<span class='address bold'>" . $row["address"] . "</span>";
+    echo /*html*/ "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
+    echo /*html*/ "<span class='description'>" . $row["description"] . "</span>";
+    echo /*html*/ "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
+    echo /*html*/ "</div>";
+    if (isset($row['availablity'])) {
+        //available
+        if ($row['availablity'] == 1) {
+            echo /*html*/ '<h3>AVAILABLE</h3>';
+        }
+        //not available
+        else if ($row['availablity'] == 0) {
+            echo /*html*/ '<h3>SALE AGREED</h3>';
+        }
+    }
+    echo /*html*/ "<button class='more-info open infobtn btn btn-primary' btn-lg btn-block >More Info</button>";
+
+
+    //modal info view
+
+    dialogBuilder($row);
+
+
+
+    //display an additional button if the user is a tenant and property is available
+    if ($_SESSION["permission"] == 'tenant' && isset($row['availablity']) && $row['availablity'] == 1) {
+        echo/*html*/ "
+        <form action='./enquiry.php'>
+            <button class='infobtn btn btn-warning' btn-lg btn-block >Make an enquiry</button>
+        </form>
+        ";
+    }
+    echo/*html*/ "</div>";
+}
+
 //function to build a modal dialog with the provided row
 function dialogBuilder($row)
 {
