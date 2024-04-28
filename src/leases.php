@@ -11,6 +11,29 @@ session_start();
 require('./functions.php');
 require("../../../../mysql_connect.php");
 
+if($_SERVER['REQUEST_METHOD']=="POST"){
+    $user = $_SESSION["username"];
+    $address = $_POST['address'];
+
+    
+    $userQuery = "UPDATE users SET lease = NULL WHERE username = ?";
+    $propertyQuery = "UPDATE property SET availablity = 1 WHERE address = ?";
+
+    if ($stmt = $db_connection->prepare($userQuery)) {
+        $stmt->bind_param("s", $user);
+        // Attempt to execute the prepared statement
+        if ($stmt->execute()) {
+            if ($stmt = $db_connection->prepare($propertyQuery)) {
+                $stmt->bind_param("s", $address);
+                if ($stmt->execute()) {
+                    header("location: ./index.php");
+                }
+            }
+        }
+    }
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -31,34 +54,42 @@ require("../../../../mysql_connect.php");
     include('./header.php');
     ?>
     <div class="container">
-        <h2>Your leased properties</h2>
+        <h2>Your current lease</h2>
         <?php
         $query = getTenantAddress($_SESSION['username']);
-        $query = htmlspecialchars($query);
-        $query = trim($query); // remove empty spaces
-        $query = strip_tags($query); // html and php tags removed
-        $query = htmlspecialchars($query, ENT_QUOTES, 'UTF-8'); // convert anything bad to html characters
-
-        $sql = "SELECT * FROM property WHERE address LIKE '%$query%' ";
-
-        $result = mysqli_query($db_connection, $sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="property-box featured-property">';
-                echo '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
-                echo "<div class='property-description'>";
-                echo "<span class='address bold'>" . $row["address"] . "</span>";
-                echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
-                echo "<span class='description'>" . $row["description"] . "</span>";
-                echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
-                echo "</div>";
-                echo "<button style='margin:1rem;' class='btn btn-danger' btn-lg btn-block >Remove Lease</button>";
-                echo "</div>";
-            }
-        } else {
+        if(!isset($query)){
             echo "no results :(";
+        }else{
+            $query = htmlspecialchars($query);
+            $query = trim($query); // remove empty spaces
+            $query = strip_tags($query); // html and php tags removed
+            $query = htmlspecialchars($query, ENT_QUOTES, 'UTF-8'); // convert anything bad to html characters
+    
+            $sql = "SELECT * FROM property WHERE address LIKE '%$query%' ";
+    
+            $result = mysqli_query($db_connection, $sql);
+    
+            if ($result->num_rows >0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="property-box featured-property">';
+                    echo '<div class="property-thumbnail"><img class="thumbnail" src=../assets/' . $row["photo_path"] . '></div>';
+                    echo "<div class='property-description'>";
+                    echo "<span class='address bold'>" . $row["address"] . "</span>";
+                    echo "<span class='landlord-email '>Posted by <span class='bold'> " . $row["landlord"] . "</span> </span>";
+                    echo "<span class='description'>" . $row["description"] . "</span>";
+                    echo "<span class='rent-price bold'>€" . $row["rent_price"] . "/month</span>";
+                    echo "</div>";
+                    echo "<form method='post' action=''>
+                            <input type='hidden' name='address' value='" . $row["address"] . "'>
+                            <button name='submit' style='margin:1rem;' class='btn btn-danger'>Remove Lease</button>
+                         </form>";
+                    echo "</div>";
+                }
+            } else {
+                echo "no results :(";
+            }
         }
+        
         ?>
     </div>
     <?php
