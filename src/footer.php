@@ -11,7 +11,7 @@
             <div class="footer-links">
                 <ul>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="contact_us.php">Contact Us</a></li>
                     <li><a href="https://www.maps.ie/site-map.htm">Sitemap</a></li>
                     <li><a href="#">Terms & Conditions</a></li>
                     <li><a href="#">Privacy Policy</a></li>
