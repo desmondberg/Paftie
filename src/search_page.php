@@ -6,8 +6,6 @@ error_reporting(E_ALL);
 
 session_start();
 
-print_r($_SESSION);
-
 require("../../../../mysql_connect.php");
 
 ?>
