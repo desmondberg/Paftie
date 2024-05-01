@@ -1,9 +1,3 @@
-USER PASSWORDS
+Paft.ie
 
-Dezzy:123
-RandomTenant:IWantAHouse
-Krieg_Lochtheart:password1
-boykisser.net:GlepCharliePimAlan
-johnpaft54:splatoon22
-Paft:Paft-Control-2024
-sryder:jacobILoveYou1234
+A mock property listing website. Developed as part of a college group project intended to improve my knowledge of PHP and database management
